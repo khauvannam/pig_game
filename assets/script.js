@@ -18,7 +18,8 @@ score1El.textContent = 0;
 dice.classList.add("hidden");
 let randomNumber = Math.trunc(Math.random() * 6) + 1;
 let currentScore = 0;
-let totalScore = 0;
+let activePlayer = 0;
+const scores = [0, 0];
 // ROLL FUNCTIONALITY
 const rollDice = function () {
   dice.classList.remove("hidden");
@@ -27,37 +28,22 @@ const rollDice = function () {
   //   CHECK FOR ROLL 1
   if (randomNumber !== 1) {
     currentScore += randomNumber;
-    if (playler0.classList.contains("player--active")) {
-      currentScore0.textContent = currentScore;
-    } else if (playler1.classList.contains("player--active")) {
-      currentScore1.textContent = currentScore;
-    }
-  } // IF RANDOM = 1
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+  }
+  // IF RANDOM = 1
   else {
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
     currentScore = 0;
-    if (playler0.classList.contains("player--active")) {
-      currentScore0.textContent = currentScore;
-      playler0.classList.remove("player--active");
-      playler1.classList.add("player--active");
-    } else if (playler1.classList.contains("player--active")) {
-      currentScore1.textContent = currentScore;
-      playler1.classList.remove("player--active");
-      playler0.classList.add("player--active");
-    }
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    playler0.classList.toggle("player--active");
+    playler1.classList.toggle("player--active");
   }
 };
-
 // HOLD FUNCTIONALITY
-const holdScore = function () {
-  if (playler0.classList.contains("player--active")) {
-    playler0.classList.remove("player--active");
-    playler1.classList.add("player--active");
-  } else if (playler1.classList.contains("player--active")) {
-    playler1.classList.remove("player--active");
-    playler0.classList.add("player--active");
-  }
-};
+const holdScore = function () {};
 
 // BUTTON CLICKED
 rollEl.addEventListener("click", rollDice);
 holdEl.addEventListener("click", holdScore);
+newEl.addEventListener("click", newGame);
