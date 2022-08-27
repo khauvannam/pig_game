@@ -19,13 +19,14 @@ dice.classList.add("hidden");
 let randomNumber = Math.trunc(Math.random() * 6) + 1;
 let currentScore = 0;
 let activePlayer = 0;
+let totalScore = 0;
 const scores = [0, 0];
 // ROLL FUNCTIONALITY
 const rollDice = function () {
   dice.classList.remove("hidden");
   randomNumber = Math.trunc(Math.random() * 6) + 1;
   dice.src = `./assets/img/dice-${randomNumber}.png`;
-  //   CHECK FOR ROLL 1
+  //   IF ROLL !== 1
   if (randomNumber !== 1) {
     currentScore += randomNumber;
     document.getElementById(`current--${activePlayer}`).textContent =
@@ -41,7 +42,13 @@ const rollDice = function () {
   }
 };
 // HOLD FUNCTIONALITY
-const holdScore = function () {};
+const holdScore = function () {
+  if (totalScore < 100) {
+    totalScore += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent = totalScore;
+  } else {
+  }
+};
 
 // BUTTON CLICKED
 rollEl.addEventListener("click", rollDice);
