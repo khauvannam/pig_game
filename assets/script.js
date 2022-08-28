@@ -19,38 +19,65 @@ dice.classList.add("hidden");
 let randomNumber = Math.trunc(Math.random() * 6) + 1;
 let currentScore = 0;
 let activePlayer = 0;
-let totalScore = 0;
+let playing = true;
 const scores = [0, 0];
-// ROLL FUNCTIONALITY
-const rollDice = function () {
-  dice.classList.remove("hidden");
-  randomNumber = Math.trunc(Math.random() * 6) + 1;
-  dice.src = `./assets/img/dice-${randomNumber}.png`;
-  //   IF ROLL !== 1
-  if (randomNumber !== 1) {
-    currentScore += randomNumber;
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
-  }
-  // IF RANDOM = 1
-  else {
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    currentScore = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    playler0.classList.toggle("player--active");
-    playler1.classList.toggle("player--active");
-  }
-};
-// HOLD FUNCTIONALITY
-const holdScore = function () {
-  if (totalScore < 100) {
-    totalScore += currentScore;
-    document.getElementById(`score--${activePlayer}`).textContent = totalScore;
-  } else {
-  }
+
+// SWITCH FUNCTIONALITY
+const switchPlayer = function () {
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  playler0.classList.toggle("player--active");
+  playler1.classList.toggle("player--active");
 };
 
-// BUTTON CLICKED
-rollEl.addEventListener("click", rollDice);
-holdEl.addEventListener("click", holdScore);
-newEl.addEventListener("click", newGame);
+// ROLL FUNCTIONALITY
+rollEl.addEventListener("click", function () {
+  if (playing) {
+    dice.classList.remove("hidden");
+    randomNumber = Math.trunc(Math.random() * 6) + 1;
+    dice.src = `./assets/img/dice-${randomNumber}.png`;
+    //   IF ROLL !== 1
+    if (randomNumber !== 1) {
+      currentScore += randomNumber;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    }
+    // IF RANDOM = 1
+    else {
+      switchPlayer();
+    }
+  }
+});
+
+// HOLD FUNCTIONALITY
+holdEl.addEventListener("click", function () {
+  if (playing) {
+    scores[activePlayer] += currentScore;
+    document.querySelector(`#score--${activePlayer}`).textContent =
+      scores[activePlayer];
+    if (scores[activePlayer] >= 10) {
+      playing = false;
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add("player--winner");
+    } else {
+      switchPlayer();
+    }
+  }
+});
+newEl.addEventListener("click", function () {
+  playing = true;
+  currentScore = 0;
+  scores[activePlayer] = 0;
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove("player--winner");
+  activePlayer = 0;
+  playler0.classList.add("player--active");
+  playler1.classList.remove("player--active");
+  currentScore0.textContent = 0;
+  currentScore1.textContent = 0;
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+});
