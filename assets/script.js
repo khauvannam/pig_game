@@ -20,7 +20,7 @@ let randomNumber = Math.trunc(Math.random() * 6) + 1;
 let currentScore = 0;
 let activePlayer = 0;
 let playing = true;
-const scores = [0, 0];
+let scores = [0, 0];
 
 // SWITCH FUNCTIONALITY
 const switchPlayer = function () {
@@ -56,7 +56,7 @@ holdEl.addEventListener("click", function () {
     scores[activePlayer] += currentScore;
     document.querySelector(`#score--${activePlayer}`).textContent =
       scores[activePlayer];
-    if (scores[activePlayer] >= 10) {
+    if (scores[activePlayer] >= 20) {
       playing = false;
       document
         .querySelector(`.player--${activePlayer}`)
@@ -69,7 +69,7 @@ holdEl.addEventListener("click", function () {
 newEl.addEventListener("click", function () {
   playing = true;
   currentScore = 0;
-  scores[activePlayer] = 0;
+  scores = [0, 0];
   document
     .querySelector(`.player--${activePlayer}`)
     .classList.remove("player--winner");
