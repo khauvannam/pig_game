@@ -14,7 +14,7 @@ const playler1 = document.querySelector(".player--1");
 let randomNumber = Math.trunc(Math.random() * 6) + 1;
 
 // SET VALUE
-
+dice.classList.add("hidden");
 score0El.textContent = 0;
 score1El.textContent = 0;
 let currentScore = 0;
@@ -65,7 +65,7 @@ holdEl.addEventListener("click", function () {
     scores[activePlayer] += currentScore;
     document.querySelector(`#score--${activePlayer}`).textContent =
       scores[activePlayer];
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 50) {
       playing = false;
       document
         .querySelector(`.player--${activePlayer}`)
